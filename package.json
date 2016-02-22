@@ -1,0 +1,52 @@
+{
+  "name": "coiot",
+  "description": "Coiot Internet of Things JavaScript Platform",
+  "version": "0.0.1",
+  "author": "Andrey Gershun <agershun@gmail.com>",
+  "contributors": [],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {},
+  "dependencies": {
+    "express": "^4.13.4",
+    "body-parser": "^1.15.0",
+    "ws": "^1.0.1"
+  },
+  "devDependencies": {
+    "assert": "^1.3.0"
+  },
+  "engines": [
+    "node"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/agershun/coiot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/agershun/coiot/issues"
+  },
+  "bin": {
+    "coiot": "./bin/coiot.js"
+  },
+  "homepage": "https://github.com/agershun/coiot",
+  "main": "dist/coiot.js",
+  "keywords": [
+    "iot",
+    "javascript"
+  ],
+  "license": "MIT",
+  "preferGlobal": true,
+  "testling": {
+    "browsers": [
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/4..latest",
+      "ipad/4..latest",
+      "android-browser/4..latest"
+    ]
+  }
+}

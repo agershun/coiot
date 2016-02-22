@@ -1,0 +1,1 @@
+@node bin/coiot.js %*

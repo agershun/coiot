@@ -1,0 +1,45 @@
+﻿coiot sever
+coiot login localhost:4000 admin 123456
+coiot insert user guest password guest
+coiot grant guest all
+coiot login guest guest
+
+> coiot server
+> coiot login
+> coiot list
+11234	12133	31312	12121	12112
+> coiot get 
+id		tag				class		path		value		x		y
+--		---				-----		----		-----		-		-
+11234	temperature					/building1	23.1
+12133	window						/building1	23.4
+31312	window						/building1	25.2
+12121	window						/building1	26.1
+12112	geo				volvo		/cars					56.442	43.1112						
+
+Environment pass
+URL
+USERNAME
+TOCKEN
+PWD
+
+coiot emulator path
+coiot server port public
+coiit server 4000 public init-script parameters -- start emulator from ./init/index.js
+/port:4000
+coiot s -- server
+coiot l admin 1234
+
+
+package.jsom
+README.md
+LICENSE.md
+./coiot -- node ./bin/coiot.js -- executions
+bin/coiot.js -- cli
+init.js -- initiation script
+/public - directory with HTML (with copy of coiot.min.js from /dist)
+/node_modules
+/src -- source directory with server and browser sources
+/dist -- browser distributives library (coiot.js and coiot.min.js)
+/bin/coiot.js -- cli for global npm installation
+
