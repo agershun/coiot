@@ -7,6 +7,13 @@ var utils=require('./src/utils');
 var Coiot = function() {
 	this.devices = {};
 	this.connections = {};
+	var guest = {id:'guest'};
+	this.tables = {
+		user:[guest]
+	};
+	this.ixtables = {
+		user:{guest:guest}
+	};
 	return this;
 };
 
@@ -84,8 +91,8 @@ Coiot.prototype.list = function(selector,cb) {
 function match(d,selector) {
 	if(typeof selector === 'undefined' || selector == '') return true;
 	selector = (''+selector).trim();
-	if(selector.match(/[0-9]*/i) && (''+d.id).toUpperCase() == (''+selector).toUpperCase()) return true;
-	if(selector.match(/\#[a-z_\-0-9]*/i) && (''+d.id).toUpperCase() == (''+selector.substr(1)).toUpperCase()) return true;
+	if(selector.match(/[0-9]+/i) && (''+d.id).toUpperCase() == (''+selector).toUpperCase()) return true;
+	if(selector.match(/\#[a-z_\-0-9]+/i) && (''+d.id).toUpperCase() == (''+selector.substr(1)).toUpperCase()) return true;
 	if(selector.match(/[a-z_][a-z_\-0-9]*/i) && ((''+d.tag)||'').toUpperCase() == (''+selector).toUpperCase()) return true;
 	if(selector.match(/\.[a-z_][a-z_\-0-9]*/i) && (d.class||{})[selector.toLowerCase().substr(1)]) return true;
 	var ss = selector.split('[');
@@ -96,11 +103,40 @@ function match(d,selector) {
 //			console.log(args,ss[1].substr(0,ss[1].length-1));
 			var fn = new Function(args,'return '+ss[1].substr(0,ss[1].length-1));
 			// console.log(fn.call(d,d));
-			return fn.apply(d,keys.map(function(key){return d[key]}));
+			try {
+				return fn.apply(d,keys.map(function(key){return d[key]}));
+			} catch(err) {
+				return false;
+			}
 		}
 	}
 }
 
+function idmatch(d,selector) {
+	if(typeof selector === 'undefined' || selector == '') return true;
+	selector = (''+selector).trim();
+	if(selector.match(/[a-z_\-0-9]+/i) && (''+d.id).toUpperCase() == (''+selector).toUpperCase()) return true;
+	// if(selector.match(/\#[a-z_\-0-9]*/i) && (''+d.id).toUpperCase() == (''+selector.substr(1)).toUpperCase()) return true;
+	// if(selector.match(/[a-z_][a-z_\-0-9]*/i) && ((''+d.tag)||'').toUpperCase() == (''+selector).toUpperCase()) return true;
+	// if(selector.match(/\.[a-z_][a-z_\-0-9]*/i) && (d.class||{})[selector.toLowerCase().substr(1)]) return true;
+	var ss = selector.split('[');
+	if(ss.length == 2) {
+//		console.log(120,ss,d);
+		if(idmatch(d,ss[0])) {
+			var keys = Object.keys(d);
+//			console.log(123,keys,d);
+			var args = keys.join(',');
+//			console.log(d,args,ss[1].substr(0,ss[1].length-1));
+			var fn = new Function(args,'return '+ss[1].substr(0,ss[1].length-1));
+			// console.log(fn.call(d,d));
+			try {
+				return fn.apply(d,keys.map(function(key){return d[key]}));
+			} catch(err) {
+				return false;
+			}
+		}
+	}
+}
 
 // Logout from the server
 Coiot.prototype.info = function(selector,cb) {
@@ -165,5 +201,44 @@ Coiot.prototype.removeClass = function(selector,className,cb) {
 		if(cb) cb();
 	});
 };
+
+// Insert into tables
+Coiot.prototype.insert = function(table,id,params,cb) {
+	var obj = {id:id};
+	utils.extend(obj,params);
+	this.ixtables[table][id] = obj;
+	this.tables[table].push(obj);
+	if(cb) cb();
+};
+
+// UDelete from tables
+Coiot.prototype.delete = function(table,selector,cb) {
+	var self = this;
+	this.tables[table] = this.tables[table].filter(function(d){
+		if((!selector) || idmatch(d,selector)) {
+			delete self.ixtables[table][d.id];
+			return false;
+		} else {
+			return true;
+		}
+	});
+	if(cb) cb();
+};
+
+// Update tables
+Coiot.prototype.update = function(table,selector,attribute,value,cb) {
+	this.tables[table].forEach(function(d){
+		if((!selector) || idmatch(d,selector)) {
+			if(typeof attribute == 'object') {
+				utils.extend(d,attribute);
+			} else {
+				d[attribute] = value;
+			}
+			return false;
+		}
+	});
+	if(cb) cb();
+};
+
 
 module.exports = Coiot;

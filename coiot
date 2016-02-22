@@ -1,2 +1,2 @@
-#!node
+#!/usr/bin/env bash
 node bin/coiot.js %*

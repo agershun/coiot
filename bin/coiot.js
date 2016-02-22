@@ -1,4 +1,6 @@
-﻿var assert = require('assert');
+﻿#!/usr/bin/env node
+
+var assert = require('assert');
 var Coiot = require('../index');
 var coiot = new Coiot();
 
