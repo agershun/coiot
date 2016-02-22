@@ -1,0 +1,87 @@
+API
+===
+coiot.get(12345, function(err, data){
+	
+});
+// or Promise() if cb is undefined.
+
+coiot.get(selector,range,cb);
+
+coiot.get(selector,cb);
+
+
+12,334,222-225,123[country="Russia"] or MongoDB selector
+{12345:[{temperature:23.3,time:12322},{temperature:23.3,time:11122}]}
+
+selector
+one
+one,two,three
+on*
+'buildingId='1123' AND type = 'temperature' AND floor = 2'
+'near(56,22,20)'
+
+from: 112112 to:121223 step:'day'
+
+coiot.get(selector,cb)
+coiot.query(selector, history, cb) coiot.query()
+coiot.list(selector)
+coiot.do(selector,action, params)  // selector #122 .class [country="Russia"] do('mainbuilding','night-mode')
+coiot.login(user)
+coiot.logout()
+coiot.on(selector+area,event,cb)
+coiot.off(selector+area,event) or coito.off(watchid)
+coiot.clear()
+
+coiot.login(url,user,password) or coiot.login(url,token)
+coiot.list()
+console.log(list)
+coiot.logout();
+
+coiot.query('[temperature>123]')
+
+coiot.sql('SELECT * FROM sensors WHERE temperature>?',[123],cb);
+
+coiot.register(device);
+coiot.unregister(selector);
+coiot.ping(selector,timeout);
+
+
+express();
+
+httpServer...
+
+
+ws service...
+
+
+
+users
+sensors
+accessrights
+signallog
+commandlog
+rules
+businessprocesses
+
+
+SESSION
+====
+var coiot = new Coiot();
+coiot.register('#1,#2,#3',{type:'led'});
+coiot.do('#1','on');
+coiot.do('#2,#3','off');
+coiot.do('*','toggle');
+coiot.list('[state=on]');
+
+coiot.register('window#5[floor=2,room=13]);
+coiot.register('window#6[floor=2,room=14]);
+coiot.on('window','open',function(){console.log(`Window $(this.id) is open`});
+coiot.on('window','close',function(){console.log(`Window $(this.id) is closed`});
+coiot.do('window','open');
+
+coiot.login('http://localhost:4000/api','guest','guest');
+coiot.on('window','*',function(event){console.log(this,event)});
+
+
+
+

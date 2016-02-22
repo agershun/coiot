@@ -1,0 +1,109 @@
+var tocken = '11221121212-12121212';
+var coiot = new Coiot('http://localhost:4000/api',tocken);
+coiot('window',function(data){
+	console.log(data);
+});
+// id-attr-value
+
+coiot.class('window',{state:'boolean'});
+
+coiot.watch('window','x<100',function(){console.log('below')});
+coiot.get();
+
+
+
+if(cb) {
+	fn(function(res){
+		cb(res);
+	});
+} else {
+	return new Promise(function(resolve,reject){
+		fn(function(res){
+			resolve(res);
+		});
+	});
+}
+
+coiot.register('building',{props:{mode:'night'},actions:{night:function(){}}});
+
+coiot.on('building','change', function(e){ color=e.target.mode='night'?'black':'white'; });
+coiot.do('building','night');
+
+building1/floor1/led1
+
+coiot('#building1/*/*')
+
+devices
+address
+
+CATALOG
+===
+coiot.cd('/building1');
+coiot.pwd();
+coiot.ls();
+
+coiot.register('floor.high#building/floor1[height=3.2]');
+coiot('.high[height>3]#building1//');
+coiot('window /building1')
+
+coiot.action('window.wide/building1/floor1[height>3]','close');
+coiot.on('window','closed',function(){});
+coiot.on('window','opened',function(){});
+coiot.one('window','opened',function(){});
+
+
+var coiot = new Coiot();
+coiot.login(url,tocken,function(){
+	coiot.ls(function(data){
+		console.log(data);
+	});
+});
+
+
+CoiotOS
+===
+> ls
+building1	building2
+
+>cd building1
+
+>ls
+floor1	floor2
+
+>ls floor1/
+led1	led2	led3
+
+>do #floor1/led1 on
+
+>get led
+id:led1	state:'on'
+id:led2	state:'off'
+id:led3	state:'off'
+
+>ls led
+>ls /building1
+>ls /building1/floor1
+>list /building1 -- path
+>ls /*/ -- list all directories
+>list near(#111234,20)
+#223	#223	#211121
+>set window state closed
+>get window state
+>set window {state:'closed',opacity:0.5}
+>get window[opacity>0] state
+>do window close
+>list window[near(/building1,10)]
+>coiot-list window
+>coiot list window
+>coiot server
+>coiot emulator
+
+
+CoiotOS
+
+
+
+
+
+
+

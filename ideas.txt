@@ -1,0 +1,81 @@
+COIOT
+=====
+
+server
+emulator
+
+var coiot = require('coiot');
+
+
+Emulator
+===
+var bus = new coiot.Bus(port);
+var sensor =  new coiot.Sensor('temperature');
+bus.attach(sensor); // sensor.bus(bus);
+
+Server
+==
+var bus = new coiot.Bus(port);
+coiot.registerSensor(sensorId);
+new Server(port);
+bus.on('');
+
+sensor.on('change',);
+sensor.location = {country:'',city:'', address:{}, building:12, floor:11, room: '11a', other:'under the table', altitude:123, logitude:112, lattitude:212, building:'',};
+bus.on('info',function(sensorId,data){
+	new sensor = new Sensor(sensorId).restore();
+	;storage.restorSensor(sensorId); // check cache first
+	sensor.data = data;
+	sensor.store();
+});
+
+dcs = new coiot.DCS(portid);
+dcs.onGetSensorData(function(req,res,user,sensorId,period){
+
+	user.allowAccess(sensorId)
+	new data = new Sensor(sensorId).restore().loadData(period);
+	res.send(data);
+});
+
+
+Classes
+===
+Senor
+Data
+Period
+User
+
+REST API
+===
+users: add,delete,update
+accessrules: 
+sensors
+grids
+log
+locations
+
+other
+=====
+assets (cars, etc.)
+locations: countries, cities, address, building, floor, rooms 
+other: tenants
+
+presentation
+=====
+
+Commands
+====
+
+
+
+
+
+
+interface
+===
+bus
+
+
+
+
+

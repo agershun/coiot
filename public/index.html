@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">  	
+	<link rel="stylesheet" type="text/css" href="lib/webix/webix.css"> 
+	<script src="lib/webix/webix.js"></script>
+
+	<script type="text/javascript" src="lib/webix/components/sidebar/sidebar.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/webix/components/sidebar/sidebar.css">
+
+	<style>
+		.app_button button{
+			padding:0;
+			text-align: center;
+		}
+
+	</style>
+</head>
+<body>
+<script>
+	var cache = {};
+	var oldmain;
+
+	var menu_data = [
+		{id: "home", icon: "home", value: "Home"},
+		{id: "dashboards", icon: "dashboard", value: "Dashboards",  data:[
+			{ id: "dashboard1", value: "Building 1"},
+			{ id: "dashboard2", value: "Building 2"}
+		]},
+		{id: "layouts", icon: "columns", value:"Maps", data:[
+			{ id: "accrodions", value: "London"},
+			{ id: "portlets", value: "Dover"}
+		]},
+		{id: "tables", icon: "table", value:"Sensors", data:[
+			{ id: "tables1", value: "All Sensors"},
+		]},
+		{id: "uis", icon: "puzzle-piece", value:"Modes", data:[
+			{ id: "dataview", value: "Dayg"},
+			{ id: "list", value: "Night"},
+		]},
+		{id: "tools", icon: "calendar-o", value:"Tools", data:[
+			{ id: "scheduler", value: "Calendar"}
+		]},
+		// {id: "forms", icon: "pencil-square-o", value:"Forms",  data:[
+		// 	{ id: "buttons", value: "Buttons"},
+		// 	{ id: "selects", value: "Select boxes"},
+		// 	{ id: "inputs", value: "Inputs"}
+		// ]},
+		{id: "demo", icon: "book", value:"Help"}
+	];
+
+	webix.ready(function(){
+		webix.ui({
+			rows: [
+				{   view: "toolbar", padding:3, elements: [
+					{view: "button", type: "icon", icon: "bars",
+						width: 37, align: "left", css: "app_button", click: function(){
+							$$("main_sidebar").toggle()
+						}
+					},
+					{ view: "label", label: "CoIoT Building"},
+					{},
+//					{ view: "button", type: "icon", width: 45, css: "app_button", icon: "envelope-o",  badge:4},
+					{ view: "button", type: "icon", width: 45, css: "app_button", icon: "user"},
+					{ view: "label", label: "O.J.Simpson",autowidth:true},
+				]
+				},
+				{
+					cols:[
+						{
+							id: 'main_sidebar',
+							view: "sidebar",
+							data: menu_data,
+							on:{
+								onAfterSelect: loadMainView
+							}
+						},
+						{
+							id:'main',template:'Home'
+						}
+					]
+				}
+			]
+		});
+		// Load main menu
+		loadMainView('home');
+
+	});
+
+function loadMainView(id){
+	var id = $$('main_sidebar').getItem(id).id;
+//	webix.message("Selected: "+id);
+	webix.ajax('views/'+id+".js", function(text) {
+		if(oldmain && oldmain.onBeforeUnload) oldmain.onBeforeUnload();
+
+		if(!cache[id]) {
+			var fn = new Function(text);
+			cache[id] = fn();
+		};
+    	webix.ui(cache[id], $$("main"));
+    	if(cache[id].onAfterLoad) cache[id].onAfterLoad();
+		oldmain = cache[id];
+	});				 
+};
+
+</script>
+
+
+</body>
+</html>
