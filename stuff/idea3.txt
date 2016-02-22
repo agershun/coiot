@@ -101,7 +101,18 @@ id:led3	state:'off'
 
 CoiotOS
 
+<script src="lib/coiot/coiot.js"></script>
+<script>
+	var coiot = new Coiot;
+	coiot.login('http://localhost:4000','guest','guest',function(err){
+		coiot.get('led','light',function(err,data){
+			data.forEach(function(d){ console.log(d.temperature); });
+		});
+	});
+</script>
 
+// run tests
+coiot st 4000 testb
 
 
 

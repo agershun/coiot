@@ -20,7 +20,32 @@ var Coiot = function() {
 // Start server
 Coiot.prototype.start = function(port,public,params,cb) {
 	if(!port) port = 4000;
-	if(cb) cb();
+
+	// Start WebSocket Server
+	var WebSocket = require('ws');
+	var WebSocketServer = WebSocket.Server;
+	var wss = new WebSocketServer({ port: port });
+
+	wss.on('connection', function (ws) {
+		console.log('connected');
+	    ws.on('message', function (message) {
+	    	console.log(message);
+	    	ws.send('{id;123}');
+	    });
+	});
+
+	// Start WebServer
+	if(public) {
+		var express = require('express');
+		var app = express();
+		app.use(express.static(public));
+
+		app.listen(8080, function () {
+			if(cb) cb();
+		});
+	} else {
+		if(cb) cb();
+	}
 };
 
 // Shutdonw server

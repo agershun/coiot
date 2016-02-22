@@ -150,6 +150,20 @@ Every object can have following data fields:
 * values - current values of device sensors
 ```
 
+## Tests
+### In Node.js
+```
+> cd test
+> mocha .
+```
 
+### In browser
+```
+> coiot st 4000 testbr
+```
+Then run browser and type in url line:
+```
+http://localhost:4000
+```
 
 (c) Andrey Gershun, 2016
